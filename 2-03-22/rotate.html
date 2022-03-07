@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>
+		HTML canvas rotate() Method
+	</title>
+</head>
+
+<body>
+<center>
+
+	<canvas id="rotation" width="500"
+			height="300" style="border:2px solid gray;">
+		</canvas>
+
+	<script>
+		var geeks = document.getElementById("rotation");
+		var contex = geeks.getContext("2d");
+		contex.strokeRect(100, 50, 150, 100);
+		contex.rotate(30 * Math.PI / 180);
+		contex.strokeRect(100, 50, 150, 100);
+	</script>
+</center>
+</body>
+
+</html>						

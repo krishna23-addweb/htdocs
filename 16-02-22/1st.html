@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <form id="form1" name="form1">
+            enter base: <input type="number" id="bvalue"/>
+            enter height: <input type="number" id="hvalue"/>
+            <input type="button" id="btn" value="Click me" onclick="area()"/>
+        </form>
+        <script>
+            function area()
+            {
+                var b = parseInt(document.form1.bvalue.value);
+                var h = parseInt(document.getElementById("hvalue").value);
+                var area=1/2*b*h;
+                document.write("area of triangle: "+area);
+            }
+        </script>
+    </body>
+</html>

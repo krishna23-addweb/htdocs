@@ -1,0 +1,48 @@
+<html>
+<head>
+</head>
+<body>
+	
+	<script>
+		var i=1,n;
+		n = window.prompt("Enter a no. for table");
+		while(i<=10){
+			document.write(n+"*"+i+"="+n*i+"<br/>");
+			i++;
+		}
+		
+		var a,b;
+		a=window.prompt("enter first number:");
+		b=window.prompt("enter second number:");
+		if(a>b)
+			window.alert(a+" is larger");
+		else
+			window.alert(b+" is larger");
+
+		var a,b,c,d;
+		a=window.prompt("enter first no.");
+		b=window.prompt("enter Second no.");
+		c=window.prompt("enter third no.");
+		d=a*b*c;
+		if(d>=0?alert(d+" positive no."):alert(d+" negative no."));
+
+		var a,b,c;
+		a=window.prompt("enter first no.");
+		b=window.prompt("enter Second no.");
+		c=window.prompt("enter third no.");
+		if(a>b && b>c)
+			alert(a+","+b+","+c);
+		else if(b>a && b>c)
+			alert(b+","+a+","+c);
+		else if(c>a && c>b)
+			alert(c+","+a+","+b);
+		else if(a>c && a>b)
+			alert(a+","+c+","+b);
+		else if(b>c && b>a)
+			alert(b+","+c+","+a);
+		else
+			alert(c+","+b+","+a);
+
+	</script>
+</body>
+</html>

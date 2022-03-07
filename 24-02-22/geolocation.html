@@ -1,0 +1,29 @@
+
+<!DOCTYPE html>
+<html>
+<body>
+
+<p id="demo"></p>
+<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14236.779028187548!2d75.7323631889782!3d26.865552730365508!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x396db5049a20f841%3A0x9431f0f5f165c7ea!2sManyawas%2C%20Jaipur%2C%20Rajasthan!5e0!3m2!1sen!2sin!4v1645620907915!5m2!1sen!2sin" width="500" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=9bce51f37b8d4bfab69ae3781fe128c3">
+var x = document.getElementById("demo");
+
+function getLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(showPosition);
+  } else { 
+    x.innerHTML = "Geolocation is not supported by this browser.";
+  }
+}
+
+function showPosition(position) {
+  x.innerHTML = "Latitude: " + position.coords.latitude + 
+  "<br>Longitude: " + position.coords.longitude;
+}
+
+</script>
+
+</body>
+</html>
+

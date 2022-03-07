@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <form id="form1" name="form1">
+            enter seconds: <input type="number" id="sec"/>
+        
+            <input type="button" id="btn" value="Click me" onclick="time()"/>
+        </form>
+        <script>
+            function time()
+            {
+                var s = parseInt(document.form1.sec.value);
+                var p1=s%60;
+                var p2=s/60;
+                var p3=p2%60;
+                p2=p2/60;
+                document.write(parseInt(p2)+":"+parseInt(p3)+":"+parseInt(p1));
+            }
+        </script>
+    </body>
+</html>

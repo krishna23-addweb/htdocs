@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <script>
+            var arr = parseInt(prompt("enter elements:").split(","));
+            var i,j;
+            
+            for(i=0;i<arr.length;i++)
+            {
+                for(j=i+1;j<arr.length;j++)
+                {
+                    var temp=0;
+                    if(arr[i]>arr[j])
+                    {
+                        temp=arr[i];
+                        arr[i]=arr[j];
+                        arr[j]=temp;
+                    }
+                }
+                document.write(arr[i]+" ");    
+            }
+            
+        </script>
+    </body>
+</html>

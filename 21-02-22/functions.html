@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <h3>Javascript Function</h3>
+        <p id="demo"></p>
+        <script>
+            function f1(n)
+            {
+                var f=1,i=1;
+                while(i<=n)
+                {
+                    f=f*i;
+                    i++;
+                }
+                return f;
+            }
+            var n=prompt("enter limit:");
+            document.getElementById("demo").innerHTML = f1(n);
+        </script>
+    </body>
+</html>

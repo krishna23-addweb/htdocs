@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <script>
+            var arr= prompt("enter elements:").split(",");
+            var i=0;
+            var max=0,smax=0;
+            while(i<arr.length)
+            {
+                if(arr[i]>max)
+                max=arr[i];
+
+                i++;
+            
+            }
+            document.write("maximum: "+max);
+            var i=0;
+            while(i<=arr.length)
+            {
+                if(arr[i]< max && arr[i] > smax)
+                    smax=arr[i];
+
+                i++;
+            
+            }
+            document.write("second maximum: "+smax);
+        </script>
+    </body>
+</html>
+

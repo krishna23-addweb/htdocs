@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<p>Image to use:</p>
+<img src="https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/createPattern/canvas_createpattern.png" id="lamp" width="32" height="32">
+<p>Canvas:</p>
+<canvas id="myCanvas" width="150" height="100" style="border:1px solid ">
+</canvas>
+<br><br>
+
+<button onclick="draw('repeat')">Repeat</button> 
+    
+
+<script>
+function draw(direction) {
+  var c = document.getElementById("myCanvas");
+  var ctx = c.getContext("2d");
+  ctx.clearRect(0, 0, c.width, c.height); 
+  var img = document.getElementById("lamp")
+  var pat = ctx.createPattern(img, direction);
+  ctx.rect(0, 0, 150, 100);
+  ctx.fillStyle = pat;
+  ctx.fill();
+}
+</script>
+
+</body>
+</html>

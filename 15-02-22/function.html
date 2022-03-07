@@ -1,0 +1,22 @@
+<html>
+<head>
+</head>
+<body>
+	<script type="text/javascript">
+		var n,a,r=0;
+		n = window.prompt("enter no.:");
+		var temp=n;
+		while(!n)
+		{
+			a=n%10;
+			r=(r*10)+a;
+			n=n/10;
+		}
+		alert(r);
+		/**if(temp==r)
+			alert("its palindrome");
+		else
+			alert("it is not a palindrome");**/
+	</script>
+</body>
+</html>

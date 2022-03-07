@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+    <body>
+
+    </body>
+    <script>
+        var i,n,flag=0;
+        n=window.prompt("enter a no.");
+        for(i=2;i<n;i++)
+        {
+            if(n%i==0)
+            {
+                flag=1;
+                break;
+            }
+        }
+        if(flag==0)
+            alert(n+" Prime no.");
+        else
+            alert(n+" not a prime no.");
+    </script>
+</html>

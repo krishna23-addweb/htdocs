@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+    <body>
+
+    </body>
+    <script>
+        var i,n,flag,a;
+        n=parseInt(window.prompt("enter a element:").split(","));
+        var c=0;
+        for(a=1;a<=n;a++)
+        {
+            flag=0;
+            for(i=2;i<a;i++)
+            {
+                if(n%i==0)
+                {   
+                    flag=1;
+                    break;
+                }
+                if(flag==0)
+                c++;
+            }
+            
+        }
+        document.write("total prime no.:"+c);
+        
+    </script>
+</html>

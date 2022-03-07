@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        
+    </body>
+    <script>
+        var n=window.prompt();
+        var sum=0,a;
+        var temp=n;
+        while(n>0)
+        {
+            a=n%10;
+            sum=(sum*10)+a;
+            n=n/10;
+        }
+        if(temp==sum)
+            window.alert(temp+" is a palindrome");
+        else
+            window.alert(temp+" is not a palindrome");
+    </script>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>JavaScript Regular Expressions</h2>
+<p id="demo"></p>
+<p id="demo1"></p>
+<p id="demo2"></p>
+
+<script>
+var text = `My name 
+is Krishna`;
+var pattern = /is/g; 
+var result = text.match(pattern);
+
+document.getElementById("demo").innerHTML = result;
+
+var pattern = /krishna/i;
+var result = text.match(pattern);
+
+document.getElementById("demo1").innerHTML = result;
+
+var pattern = /^is/m;
+var result = text.match(pattern);
+document.getElementById("demo2").innerHTML = result;
+</script>
+
+</body>
+</html>

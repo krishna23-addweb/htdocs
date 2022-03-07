@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        
+    </head>
+    <body>
+        
+        <form id="form1">
+            <table>
+                <tr>
+                    <th>ID</th>
+                    <td><input type="text" id="id" /></td> 
+                    
+                </tr>
+                <tr>
+                    <th>Name</th>
+                    <td><input type="text" id="empname" /></td> 
+                </tr>
+                <tr>
+                    <th>Address</th>
+                    <td><input type="text" id="empadd" /></td> 
+                </tr>
+                <tr>
+                    <th>
+                        <button id="insertdata" onclick="insert()"> Insert Data</button>
+                    </th>
+                </tr>
+                <tr>
+                    <td>
+                        <button id="Display" onclick="display()"> Display Data</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <button id="Update" onclick="update()"> Update Data</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <button id="delete" onclick="deleteEmp()"> Delete Data</button>
+                    </td>
+                </tr>
+            </table>
+            
+        </form>
+        <table id="tbl" border="1">    
+            <tr style="background-color:black;color:white;font-size:18px;">    
+                <td>    
+                    ID    
+                </td>    
+                <td>    
+                    Name    
+                </td>    
+                <td>    
+                    Address    
+                </td>    
+            </tr>    
+        </table> 
+        <script>
+         
+            var Database_Name = "MyDB";
+            var version = 1.0;
+            var Text_Description = "Web SQL Database";
+            var Database_Size = 2 * 1024 * 1024;  
+            var obj = openDatabase(Database_Name, version, Text_Description, Database_Size);
+            obj.transaction(function (t) {
+                t.executeSql('CREATE TABLE IF NOT EXISTS Employee(id unique, name, address)');
+            });
+
+            var id = document.getElementById("id").value;
+            var name = document.getElementById("empname").value;
+            var address = document.getElementById("empadd").value;
+            
+            function insert() {
+                
+                obj.transaction(function (t){
+                    t.executeSql('insert into Employee(id,name,address)values('+ id +',"'+ name +'","'+ address +'")');
+                    display();    
+                
+                });
+                
+            }
+            function display(){
+                obj.transaction(function(t){
+                    t.executeSql('select * from Employee',[],function(transaction,results){
+                        var rows = results.rows;
+                        var len = rows.length;
+                        var str=' ';
+                        for(i=0;i<len;i++){
+                            str += "<tr>";    
+                            str += "<td>" + results.rows.item(i).id + "</td>";    
+                            str += "<td>" + results.rows.item(i).name + "</td>";    
+                            str += "<td>" + results.rows.item(i).address + "</td>";    
+                            str += "</tr>";    
+                            document.getElementById("tbl").innerHTML += str;    
+                            str = '';   
+                        }   
+                         
+                    });
+                
+                });
+            }
+            function update(){
+                var empid = document.getElementById("id").value;
+                var ename = document.getElementById("empname").value;
+                var eadd = document.getElementById("empadd").value;
+                obj.transaction(function(t){
+
+                    t.executeSql('update Employee set name=? where id=? '[ename,empid], function(transaction, results){
+                        alert("record updated successfully");
+                    });
+                    
+                });
+            }
+            function deleteEmp(){
+                obj.transaction(function(t){
+                    t.executeSql('delete from Employee where id=?'[101],function(transaction, results){
+                        alert("record deleted");
+                    });
+                });
+            }
+            
+    </script>
+    </body>
+    
+</html>

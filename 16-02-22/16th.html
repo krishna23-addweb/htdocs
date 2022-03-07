@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+    <body>
+
+    </body>
+    <script>
+        var arm,i,n,a;
+        n=window.prompt("enter a no.");
+        var temp=n;
+        while(n>0)
+        {
+            a=n%10;
+            arm=arm+(a*a*a);
+            n=parseInt(n/10);
+        }
+        if(temp==arm)
+            alert(temp+" is armstrong no.");
+        else
+            alert(temp+" is not an armstrong no.");
+    </script>
+</html>
