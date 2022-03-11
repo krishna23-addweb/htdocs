@@ -7,5 +7,4 @@ while($n>0)
     echo $a;
     $n=(int)($n/2);
 }
-
 ?>
