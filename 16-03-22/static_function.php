@@ -1,4 +1,5 @@
-class greeting {
+<?php
+class Addition {
   public static function ADD()
   {
     $a=10;
@@ -7,7 +8,5 @@ class greeting {
     echo "Addition = ".$c;
   }
 }
-
-
-greeting::ADD();
+Addition::ADD();
 ?>
