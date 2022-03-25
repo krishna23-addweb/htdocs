@@ -1,0 +1,655 @@
+MariaDB [(none)]> create database department;
+Query OK, 1 row affected (0.001 sec)
+
+MariaDB [(none)]> create table dept(eno bigint(10) primary key,empname varchar(50), job varchar(50), salary bigint(10) , annual_salary bigint(10), deptno bigint(10), commision bigint(10), date_of_joining date);
+ERROR 1046 (3D000): No database selected
+MariaDB [(none)]> use department;
+Database changed
+MariaDB [department]> create table dept(eno bigint(10) primary key,empname varchar(50), job varchar(50), salary bigint(10) , annual_salary bigint(10), deptno bigint(10), commision bigint(10), date_of_joining date);
+Query OK, 0 rows affected (0.362 sec)
+
+MariaDB [department]> desc dept;
++-----------------+-------------+------+-----+---------+-------+
+| Field           | Type        | Null | Key | Default | Extra |
++-----------------+-------------+------+-----+---------+-------+
+| eno             | bigint(10)  | NO   | PRI | NULL    |       |
+| empname         | varchar(50) | YES  |     | NULL    |       |
+| job             | varchar(50) | YES  |     | NULL    |       |
+| salary          | bigint(10)  | YES  |     | NULL    |       |
+| annual_salary   | bigint(10)  | YES  |     | NULL    |       |
+| deptno          | bigint(10)  | YES  |     | NULL    |       |
+| commision       | bigint(10)  | YES  |     | NULL    |       |
+| date_of_joining | date        | YES  |     | NULL    |       |
++-----------------+-------------+------+-----+---------+-------+
+8 rows in set (0.005 sec)
+
+MariaDB [department]> insert into dept values(101,'saloni','clerk',9000,108000,10,100,'1990-03-21');
+Query OK, 1 row affected (0.123 sec)
+
+MariaDB [department]> insert into dept values(102,'shruti','salesman',10000,120000,20,100,'1991-03-21');
+Query OK, 1 row affected (0.083 sec)
+
+MariaDB [department]> insert into dept values(103,'meenal','manager',12000,240000,40,300,'1990-09-21');
+Query OK, 1 row affected (0.195 sec)
+
+MariaDB [department]> insert into dept values(104,'mukul','analyst',13000,156000,20,400,'2022-02-14');
+Query OK, 1 row affected (0.076 sec)
+
+MariaDB [department]> insert into dept values(105,'shyam','clerk',9000,108000,20,100,'2022-03-24');
+Query OK, 1 row affected (0.033 sec)
+
+MariaDB [department]> select deptno, empname, job from dept;
++--------+---------+----------+
+| deptno | empname | job      |
++--------+---------+----------+
+|     10 | saloni  | clerk    |
+|     20 | shruti  | salesman |
+|     40 | meenal  | manager  |
+|     20 | mukul   | analyst  |
+|     20 | shyam   | clerk    |
++--------+---------+----------+
+5 rows in set (0.001 sec)
+
+MariaDB [department]> select * from dept;
++-----+---------+----------+--------+---------------+--------+-----------+-----------------+
+| eno | empname | job      | salary | annual_salary | deptno | commision | date_of_joining |
++-----+---------+----------+--------+---------------+--------+-----------+-----------------+
+| 101 | saloni  | clerk    |   9000 |        108000 |     10 |       100 | 1990-03-21      |
+| 102 | shruti  | salesman |  10000 |        120000 |     20 |       100 | 1991-03-21      |
+| 103 | meenal  | manager  |  12000 |        240000 |     40 |       300 | 1990-09-21      |
+| 104 | mukul   | analyst  |  13000 |        156000 |     20 |       400 | 2022-02-14      |
+| 105 | shyam   | clerk    |   9000 |        108000 |     20 |       100 | 2022-03-24      |
++-----+---------+----------+--------+---------------+--------+-----------+-----------------+
+5 rows in set (0.002 sec)
+
+MariaDB [department]> select empname, job from dept;
++---------+----------+
+| empname | job      |
++---------+----------+
+| saloni  | clerk    |
+| shruti  | salesman |
+| meenal  | manager  |
+| mukul   | analyst  |
+| shyam   | clerk    |
++---------+----------+
+5 rows in set (0.002 sec)
+
+MariaDB [department]> select empname, salary from dept;
++---------+--------+
+| empname | salary |
++---------+--------+
+| saloni  |   9000 |
+| shruti  |  10000 |
+| meenal  |  12000 |
+| mukul   |  13000 |
+| shyam   |   9000 |
++---------+--------+
+5 rows in set (0.002 sec)
+
+MariaDB [department]> select eno,salary from dept;
++-----+--------+
+| eno | salary |
++-----+--------+
+| 101 |   9000 |
+| 102 |  10000 |
+| 103 |  12000 |
+| 104 |  13000 |
+| 105 |   9000 |
++-----+--------+
+5 rows in set (0.002 sec)
+
+MariaDB [department]> select empname, salary*12 as 'annual' from dept;
++---------+--------+
+| empname | annual |
++---------+--------+
+| saloni  | 108000 |
+| shruti  | 120000 |
+| meenal  | 144000 |
+| mukul   | 156000 |
+| shyam   | 108000 |
++---------+--------+
+5 rows in set (0.001 sec)
+
+MariaDB [department]> select empname from dept where deptno=10;
++---------+
+| empname |
++---------+
+| saloni  |
++---------+
+1 row in set (0.002 sec)
+
+MariaDB [department]> select empname from dept where job='clerk' and salary >3000;
++---------+
+| empname |
++---------+
+| saloni  |
+| shyam   |
++---------+
+2 rows in set (0.002 sec)
+
+MariaDB [department]> update dept set commision=NULL where eno=102;
+Query OK, 1 row affected (0.046 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [department]> select eno,empname from dept where IS NOT NULL commision;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'IS NOT NULL commision' at line 1
+MariaDB [department]> select eno,empname from dept where commision IS NOT NULL;
++-----+---------+
+| eno | empname |
++-----+---------+
+| 101 | saloni  |
+| 103 | meenal  |
+| 104 | mukul   |
+| 105 | shyam   |
++-----+---------+
+4 rows in set (0.002 sec)
+
+MariaDB [department]> select eno,empname from dept where commision IS NULL;
++-----+---------+
+| eno | empname |
++-----+---------+
+| 102 | shruti  |
++-----+---------+
+1 row in set (0.002 sec)
+
+MariaDB [department]> select empname from dept where job in ('clerk','salesman','analyst') and salary>3000;
++---------+
+| empname |
++---------+
+| saloni  |
+| shruti  |
+| mukul   |
+| shyam   |
++---------+
+4 rows in set (0.003 sec)
+
+MariaDB [department]> select empname from dept where date_of_joining<1990-06-30 and date_of_joining > 1990-12-31;
+Empty set, 1 warning (0.001 sec)
+
+MariaDB [department]> select sysdate from dept;
+ERROR 1054 (42S22): Unknown column 'sysdate' in 'field list'
+MariaDB [department]> select sysdate from dual;
+ERROR 1054 (42S22): Unknown column 'sysdate' in 'field list'
+MariaDB [department]> select empname from dept where deptno in(10,20,40) or job in('clerk','salesman','analyst');
++---------+
+| empname |
++---------+
+| saloni  |
+| shruti  |
+| meenal  |
+| mukul   |
+| shyam   |
++---------+
+5 rows in set (0.001 sec)
+
+MariaDB [department]> select empname from dept where empname like 's%';
++---------+
+| empname |
++---------+
+| saloni  |
+| shruti  |
+| shyam   |
++---------+
+3 rows in set (0.001 sec)
+
+MariaDB [department]> select empname from dept where empname like '%i';
++---------+
+| empname |
++---------+
+| saloni  |
+| shruti  |
++---------+
+2 rows in set (0.001 sec)
+
+MariaDB [department]> select empname from dept where empname like '%_a';
+Empty set (0.001 sec)
+
+MariaDB [department]> select empname from dept where empname like '_a%';
++---------+
+| empname |
++---------+
+| saloni  |
++---------+
+1 row in set (0.001 sec)
+
+MariaDB [department]> select empname from dept where empname like '_____';
++---------+
+| empname |
++---------+
+| mukul   |
+| shyam   |
++---------+
+2 rows in set (0.001 sec)
+
+MariaDB [department]> select empname from dept where job != 'manager';
++---------+
+| empname |
++---------+
+| saloni  |
+| shruti  |
+| mukul   |
+| shyam   |
++---------+
+4 rows in set (0.001 sec)
+
+MariaDB [department]> select empname from dept where job not in ('salesman','clerk','analyst');
++---------+
+| empname |
++---------+
+| meenal  |
++---------+
+1 row in set (0.001 sec)
+
+MariaDB [department]> select count(*) from dept;
++----------+
+| count(*) |
++----------+
+|        5 |
++----------+
+1 row in set (0.001 sec)
+
+MariaDB [department]> select sum(salary) as 'Total salary' from dept;
++--------------+
+| Total salary |
++--------------+
+|        53000 |
++--------------+
+1 row in set (0.001 sec)
+
+MariaDB [department]> select max(salary) from dept;
++-------------+
+| max(salary) |
++-------------+
+|       13000 |
++-------------+
+1 row in set (0.001 sec)
+
+MariaDB [department]> select min(salary) from dept;
++-------------+
+| min(salary) |
++-------------+
+|        9000 |
++-------------+
+1 row in set (0.001 sec)
+
+MariaDB [department]> select avg(salary) from dept;
++-------------+
+| avg(salary) |
++-------------+
+|  10600.0000 |
++-------------+
+1 row in set (0.001 sec)
+
+MariaDB [department]> select max(salary) from dept where job='clerk';
++-------------+
+| max(salary) |
++-------------+
+|        9000 |
++-------------+
+1 row in set (0.001 sec)
+
+MariaDB [department]> select max(salary) from dept where deptno=20;
++-------------+
+| max(salary) |
++-------------+
+|       13000 |
++-------------+
+1 row in set (0.001 sec)
+
+MariaDB [department]> select min(salary) from dept where job='salesman';
++-------------+
+| min(salary) |
++-------------+
+|       10000 |
++-------------+
+1 row in set (0.001 sec)
+
+MariaDB [department]> select avg(salary) from dept job='manager';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '='manager'' at line 1
+MariaDB [department]> select avg(salary) from dept where job='manager';
++-------------+
+| avg(salary) |
++-------------+
+|  12000.0000 |
++-------------+
+1 row in set (0.001 sec)
+
+MariaDB [department]> select sum(salary) as 'Total salary' from dept where job='analyst' and ddeptno=40;
+ERROR 1054 (42S22): Unknown column 'ddeptno' in 'where clause'
+MariaDB [department]> select sum(salary) as 'Total salary' from dept where job='analyst' and deptno=40;
++--------------+
+| Total salary |
++--------------+
+|         NULL |
++--------------+
+1 row in set (0.001 sec)
+
+MariaDB [department]> select empname from dept order by salary;
++---------+
+| empname |
++---------+
+| saloni  |
+| shyam   |
+| shruti  |
+| meenal  |
+| mukul   |
++---------+
+5 rows in set (0.002 sec)
+
+MariaDB [department]> select empname from dept order by salary desc;
++---------+
+| empname |
++---------+
+| mukul   |
+| meenal  |
+| shruti  |
+| saloni  |
+| shyam   |
++---------+
+5 rows in set (0.001 sec)
+
+MariaDB [department]> select * from dept order by empname;
++-----+---------+----------+--------+---------------+--------+-----------+-----------------+
+| eno | empname | job      | salary | annual_salary | deptno | commision | date_of_joining |
++-----+---------+----------+--------+---------------+--------+-----------+-----------------+
+| 103 | meenal  | manager  |  12000 |        240000 |     40 |       300 | 1990-09-21      |
+| 104 | mukul   | analyst  |  13000 |        156000 |     20 |       400 | 2022-02-14      |
+| 101 | saloni  | clerk    |   9000 |        108000 |     10 |       100 | 1990-03-21      |
+| 102 | shruti  | salesman |  10000 |        120000 |     20 |      NULL | 1991-03-21      |
+| 105 | shyam   | clerk    |   9000 |        108000 |     20 |       100 | 2022-03-24      |
++-----+---------+----------+--------+---------------+--------+-----------+-----------------+
+5 rows in set (0.001 sec)
+
+MariaDB [department]> select * from dept order by empname asc;
++-----+---------+----------+--------+---------------+--------+-----------+-----------------+
+| eno | empname | job      | salary | annual_salary | deptno | commision | date_of_joining |
++-----+---------+----------+--------+---------------+--------+-----------+-----------------+
+| 103 | meenal  | manager  |  12000 |        240000 |     40 |       300 | 1990-09-21      |
+| 104 | mukul   | analyst  |  13000 |        156000 |     20 |       400 | 2022-02-14      |
+| 101 | saloni  | clerk    |   9000 |        108000 |     10 |       100 | 1990-03-21      |
+| 102 | shruti  | salesman |  10000 |        120000 |     20 |      NULL | 1991-03-21      |
+| 105 | shyam   | clerk    |   9000 |        108000 |     20 |       100 | 2022-03-24      |
++-----+---------+----------+--------+---------------+--------+-----------+-----------------+
+5 rows in set (0.002 sec)
+
+MariaDB [department]> select empname from dept order by salary asc;
++---------+
+| empname |
++---------+
+| saloni  |
+| shyam   |
+| shruti  |
+| meenal  |
+| mukul   |
++---------+
+5 rows in set (0.002 sec)
+MariaDB [department]> select eno,empname,deptno,salary from dept order by MariaMariaDB [department]> select eno,empname,deptno,salary from dept order by empname where empname = (select deptno from dept order by deptno where deptno=(select salary from dept order by salary));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'where empname = (select deptno from dept order by deptno where deptno=(select...' at line 1
+MariaDB [department]> select eno,empname,deptno,salary from dept order by;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 1
+MariaDB [department]> select eno,empname,deptno,salary from dept order by empname where dpetno = (select deptno from dept order by deptno where salary=(select salary from dept order by salary));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'where dpetno = (select deptno from dept order by deptno where salary=(select ...' at line 1
+MariaDB [department]> update dept set annual_salary=144000 where eno=103;
+Query OK, 1 row affected (0.062 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [department]> select empname, salary*12 as 'annual' from dept order by annual_salary desc;
++---------+--------+
+| empname | annual |
++---------+--------+
+| mukul   | 156000 |
+| meenal  | 144000 |
+| shruti  | 120000 |
+| saloni  | 108000 |
+| shyam   | 108000 |
++---------+--------+
+5 rows in set (0.002 sec)
+
+MariaDB [department]> select empname, salary, salary*15/100 as 'HRA', salary*10/100 as 'DA', salary*5/100 as 'PF', salary+salary*15/100+salary*10/100-salary*5/100 as 'Total salary' from dept;
++---------+--------+-----------+-----------+----------+--------------+
+| empname | salary | HRA       | DA        | PF       | Total salary |
++---------+--------+-----------+-----------+----------+--------------+
+| saloni  |   9000 | 1350.0000 |  900.0000 | 450.0000 |   10800.0000 |
+| shruti  |  10000 | 1500.0000 | 1000.0000 | 500.0000 |   12000.0000 |
+| meenal  |  12000 | 1800.0000 | 1200.0000 | 600.0000 |   14400.0000 |
+| mukul   |  13000 | 1950.0000 | 1300.0000 | 650.0000 |   15600.0000 |
+| shyam   |   9000 | 1350.0000 |  900.0000 | 450.0000 |   10800.0000 |
++---------+--------+-----------+-----------+----------+--------------+
+5 rows in set (0.001 sec)
+
+MariaDB [department]> select distinct(deptno) from dept where deptno= (select count(distinct(deptno)) from dept);
+Empty set (0.002 sec)
+
+MariaDB [department]> select deptno,count(deptno) from dept group by deptno;
++--------+---------------+
+| deptno | count(deptno) |
++--------+---------------+
+|     10 |             1 |
+|     20 |             3 |
+|     40 |             1 |
++--------+---------------+
+3 rows in set (0.002 sec)
+
+MariaDB [department]> select job,count(job) from dept group by job;
++----------+------------+
+| job      | count(job) |
++----------+------------+
+| analyst  |          1 |
+| clerk    |          2 |
+| manager  |          1 |
+| salesman |          1 |
++----------+------------+
+4 rows in set (0.002 sec)
+
+MariaDB [department]> select deptno, sum(salary) from dept group by deptno;
++--------+-------------+
+| deptno | sum(salary) |
++--------+-------------+
+|     10 |        9000 |
+|     20 |       32000 |
+|     40 |       12000 |
++--------+-------------+
+3 rows in set (0.002 sec)
+
+MariaDB [department]> select deptno, max(salary) from dept group by deptno;
++--------+-------------+
+| deptno | max(salary) |
++--------+-------------+
+|     10 |        9000 |
+|     20 |       13000 |
+|     40 |       12000 |
++--------+-------------+
+3 rows in set (0.002 sec)
+
+MariaDB [department]> select job, sum(salary) from dept group by job;
++----------+-------------+
+| job      | sum(salary) |
++----------+-------------+
+| analyst  |       13000 |
+| clerk    |       18000 |
+| manager  |       12000 |
+| salesman |       10000 |
++----------+-------------+
+4 rows in set (0.002 sec)
+
+MariaDB [department]> select job, min(salary) from dept group by job;
++----------+-------------+
+| job      | min(salary) |
++----------+-------------+
+| analyst  |       13000 |
+| clerk    |        9000 |
+| manager  |       12000 |
+| salesman |       10000 |
++----------+-------------+
+4 rows in set (0.001 sec)
+
+MariaDB [department]> select deptno,count(deptno) from dept group by deptno having count(*);
++--------+---------------+
+| deptno | count(deptno) |
++--------+---------------+
+|     10 |             1 |
+|     20 |             3 |
+|     40 |             1 |
++--------+---------------+
+3 rows in set (0.002 sec)
+
+MariaDB [department]> select deptno,count(deptno) from dept group by deptno having count(*)>3;
+Empty set (0.002 sec)
+
+MariaDB [department]> select job,sum(salary) from dept group by job having sum(salary)>40000;
+Empty set (0.002 sec)
+
+MariaDB [department]> select job,count(job) from dept group by job having count(*)>3;
+Empty set (0.002 sec)
+
+MariaDB [department]> select deptno,count(deptno) from dept group by deptno having count(*)>=2;
++--------+---------------+
+| deptno | count(deptno) |
++--------+---------------+
+|     20 |             3 |
++--------+---------------+
+1 row in set (0.001 sec)
+
+MariaDB [department]> select deptno,count(deptno) from dept group by deptno having count(*)>=1;
++--------+---------------+
+| deptno | count(deptno) |
++--------+---------------+
+|     10 |             1 |
+|     20 |             3 |
+|     40 |             1 |
++--------+---------------+
+3 rows in set (0.002 sec)
+
+MariaDB [department]> select deptno,count(deptno) from dept group by deptno having count(*)>2;
++--------+---------------+
+| deptno | count(deptno) |
++--------+---------------+
+|     20 |             3 |
++--------+---------------+
+1 row in set (0.002 sec)
+
+MariaDB [department]> create table employee (id bigint(10), name varchar(50),address varchar(50),mobile bigint(10));
+Query OK, 0 rows affected (0.262 sec)
+
+MariaDB [department]> alter table employee modify id bigint(10) primary key;
+Query OK, 0 rows affected (0.814 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [department]> create table official(id bigint(10) primary key, dept varchar(50), designation varchar(50), email varchar(50) foreign key));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'foreign key))' at line 1
+MariaDB [department]> create table official(id bigint(10) primary key, dept varchar(50), designation varchar(50), email varchar(50) foreign key);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'foreign key)' at line 1
+MariaDB [department]> create table official(id bigint(10) primary key, dept varchar(50), designation varchar(50), email varchar(50) foreign key(employee));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'foreign key(employee))' at line 1
+MariaDB [department]> create table official(id bigint(10) foreign key reference employee(id), dept varchar(50), designation varchar(50), email varchar(50) primary key);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'foreign key reference employee(id), dept varchar(50), designation varchar(50)...' at line 1
+MariaDB [department]> create table official(id bigint(10) foreign key references employee(id), dept varchar(50), designation varchar(50), email varchar(50) primary key);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'foreign key references employee(id), dept varchar(50), designation varchar(50...' at line 1
+MariaDB [department]> create table official(id bigint(10), dept varchar(50), designation varchar(50), email varchar(50) primary key);
+Query OK, 0 rows affected (0.243 sec)
+
+MariaDB [department]> alter table official add foreign key(id) references employee(id));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ')' at line 1
+MariaDB [department]> alter table official add foreign key(id) references employee(id);
+Query OK, 0 rows affected (1.316 sec)              
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [department]> desc official;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| id          | bigint(10)  | YES  | MUL | NULL    |       |
+| dept        | varchar(50) | YES  |     | NULL    |       |
+| designation | varchar(50) | YES  |     | NULL    |       |
+| email       | varchar(50) | NO   | PRI | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+4 rows in set (0.005 sec)
+
+MariaDB [department]> create table salarydetails (email varchar(50),salary bigint(10),deductions bigint(10));
+Query OK, 0 rows affected (0.287 sec)
+
+MariaDB [department]> alter table salarydetails add foreign key(email) references official(email);
+Query OK, 0 rows affected (1.291 sec)              
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [department]> insert into employee values (1,'krishna
+    '> ','azad nagar',7879865455);
+Query OK, 1 row affected (0.086 sec)
+
+MariaDB [department]> insert into employee values(2,'tanisha','shivaji nagar',7946515641);
+Query OK, 1 row affected (0.066 sec)
+
+MariaDB [department]> insert into employee values(3,'kriti','kesar ganj',4659856156);
+Query OK, 1 row affected (0.051 sec)
+
+MariaDB [department]> insert into official values(1,'saloni','rajhans colony',8984465413);
+Query OK, 1 row affected (0.072 sec)
+
+MariaDB [department]> insert into official values(2,'shruti','jain colony',9884465413);
+Query OK, 1 row affected (0.119 sec)
+
+MariaDB [department]> insert into official values(5,'meenal','jain colony',9884456213);
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`department`.`official`, CONSTRAINT `official_ibfk_1` FOREIGN KEY (`id`) REFERENCES `employee` (`id`))
+MariaDB [department]> insert into official values(3,'meenal','jain colony',9884456213);
+Query OK, 1 row affected (0.058 sec)
+
+MariaDB [department]> drop table employee;
+ERROR 1451 (23000): Cannot delete or update a parent row: a foreign key constraint fails
+MariaDB [department]> drop table salarydetails;
+Query OK, 0 rows affected (0.197 sec)
+
+MariaDB [department]> drop table official;
+Query OK, 0 rows affected (0.269 sec)
+
+MariaDB [department]> drop table employee;
+Query OK, 0 rows affected (0.119 sec)
+
+MariaDB [department]> create table employee (id bigint(10) primary key, name varchar(50),address varchar(50),mobile bigint(10));
+Query OK, 0 rows affected (0.277 sec)
+
+MariaDB [department]> create table official(id bigint(10), dept varchar(50), designation varchar(50), email varchar(50) primary key);
+Query OK, 0 rows affected (0.271 sec)
+
+MariaDB [department]> create table salarydetails (email varchar(50) primary key,salary bigint(10),deductions bigint(10));
+Query OK, 0 rows affected (0.287 sec)
+
+MariaDB [department]> insert into employee values (1,'krishna
+','azad nagar',7879865455);
+Query OK, 1 row affected (0.067 sec)
+
+MariaDB [department]> insert into employee values(2,'tanisha','shivaji nagar',7946515641);
+Query OK, 1 row affected (0.072 sec)
+
+MariaDB [department]> insert into employee values(3,'kriti','kesar ganj',4659856156);
+Query OK, 1 row affected (0.083 sec)
+
+MariaDB [department]> insert into official values(1,'saloni','rajhans colony',8984465413);
+Query OK, 1 row affected (0.051 sec)
+
+MariaDB [department]> insert into official values(2,'shruti','jain colony',9884465413);
+Query OK, 1 row affected (0.064 sec)
+
+MariaDB [department]> insert into official values(5,'meenal','jain colony',9884456213);
+Query OK, 1 row affected (0.185 sec)
+
+MariaDB [department]> insert into salarydetails values('saloni@gmail.com',25000,3000);
+Query OK, 1 row affected (0.061 sec)
+
+MariaDB [department]> insert into salarydetails values('shruti@gmail.com',26000,2000);
+Query OK, 1 row affected (0.056 sec)
+
+MariaDB [department]> insert into salarydetails values('meenal@gmail.com',20000,1000);
+Query OK, 1 row affected (0.067 sec)
+
+MariaDB [department]> delete from official;
+Query OK, 3 rows affected (0.079 sec)
+
+MariaDB [department]> insert into official values(1,'IT','full stack','krishna@gmail.com');
+Query OK, 1 row affected (0.053 sec)
+
+MariaDB [department]> insert into official values(2,'IT','Associate','tanisha@gmail.com');
+Query OK, 1 row affected (0.075 sec)
+
+MariaDB [department]> insert into official values(3,'IT','software developer','kriti@gmail.com');
+Query OK, 1 row affected (0.057 sec)
+
