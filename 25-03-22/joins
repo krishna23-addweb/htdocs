@@ -1,0 +1,163 @@
+add@add-Lenovo-G50-30:~$ sudo /opt/lampp/lampp start
+Starting XAMPP for Linux 7.4.28-0...
+XAMPP: Starting Apache...ok.
+XAMPP: Starting MySQL...ok.
+XAMPP: Starting ProFTPD...ok.
+add@add-Lenovo-G50-30:~$ sudo /opt/lampp/bin/mysql -u root -p
+Enter password: 
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 9
+Server version: 10.4.22-MariaDB Source distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> use department;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+MariaDB [department]> show tables;
++----------------------+
+| Tables_in_department |
++----------------------+
+| dept                 |
+| employee             |
+| official             |
+| salarydetails        |
++----------------------+
+4 rows in set (0.001 sec)
+
+MariaDB [department]> select * into employee;
+ERROR 1327 (42000): Undeclared variable: employee
+MariaDB [department]> select * from employee;
++----+----------+---------------+------------+
+| id | name     | address       | mobile     |
++----+----------+---------------+------------+
+|  1 | krishna
+ | azad nagar    | 7879865455 |
+|  2 | tanisha  | shivaji nagar | 7946515641 |
+|  3 | kriti    | kesar ganj    | 4659856156 |
++----+----------+---------------+------------+
+3 rows in set (0.046 sec)
+
+MariaDB [department]> select * from official;
++------+------+--------------------+-------------------+
+| id   | dept | designation        | email             |
++------+------+--------------------+-------------------+
+|    1 | IT   | full stack         | krishna@gmail.com |
+|    3 | IT   | software developer | kriti@gmail.com   |
+|    2 | IT   | Associate          | tanisha@gmail.com |
++------+------+--------------------+-------------------+
+3 rows in set (0.002 sec)
+
+MariaDB [department]> select * from salarydetails;
++------------------+--------+------------+
+| email            | salary | deductions |
++------------------+--------+------------+
+| meenal@gmail.com |  20000 |       1000 |
+| saloni@gmail.com |  25000 |       3000 |
+| shruti@gmail.com |  26000 |       2000 |
++------------------+--------+------------+
+3 rows in set (0.001 sec)
+
+MariaDB [department]> update official set id=5 where designation='Associate';
+Query OK, 1 row affected (0.059 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [department]> update salarydetails set email='krishna@gmail.com' where deduction=20000;
+ERROR 1054 (42S22): Unknown column 'deduction' in 'where clause'
+MariaDB [department]> update salarydetails set email='krishna@gmail.com' where deductions=20000;
+Query OK, 0 rows affected (0.001 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+MariaDB [department]> update salarydetails set email='kriti@gmail.com' where deductions=25000;
+Query OK, 0 rows affected (0.002 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+MariaDB [department]> select e.name, o.designation from employee e join official o on e.id=o.id;
++----------+--------------------+
+| name     | designation        |
++----------+--------------------+
+| krishna
+ | full stack         |
+| kriti    | software developer |
++----------+--------------------+
+2 rows in set (0.002 sec)
+
+MariaDB [department]> select e.name, o.designation from employee e left join official o on e.id=o.id;
++----------+--------------------+
+| name     | designation        |
++----------+--------------------+
+| krishna
+ | full stack         |
+| kriti    | software developer |
+| tanisha  | NULL               |
++----------+--------------------+
+3 rows in set (0.002 sec)
+
+MariaDB [department]> select e.name, o.designation from employee e right join official o on e.id=o.id;
++----------+--------------------+
+| name     | designation        |
++----------+--------------------+
+| krishna
+ | full stack         |
+| kriti    | software developer |
+| NULL     | Associate          |
++----------+--------------------+
+3 rows in set (0.002 sec)
+
+MariaDB [department]> select e.name, o.designation from employee e full join official o on e.id=o.id;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'full join official o on e.id=o.id' at line 1
+MariaDB [department]> select e.name, o.designation from employee e left join official o on e.id=o.id union all select e.name, o.designation from employee e right join official o on e.id=o.id;
++----------+--------------------+
+| name     | designation        |
++----------+--------------------+
+| krishna
+ | full stack         |
+| kriti    | software developer |
+| tanisha  | NULL               |
+| krishna
+ | full stack         |
+| kriti    | software developer |
+| NULL     | Associate          |
++----------+--------------------+
+6 rows in set (0.003 sec)
+
+MariaDB [department]> create table supervisior (id bigint(10) primary key, name varchar(50), supervisiorid bigint(10));
+Query OK, 0 rows affected (0.303 sec)
+
+MariaDB [department]> insert into supervisior values (1,'ruchi',3);
+Query OK, 1 row affected (0.079 sec)
+
+MariaDB [department]> insert into supervisior values (2,'mahak',3);
+Query OK, 1 row affected (0.072 sec)
+
+MariaDB [department]> insert into supervisior values (3,'shubhi',4);
+Query OK, 1 row affected (0.076 sec)
+
+MariaDB [department]> insert into supervisior values (4,'sheetal',5);
+Query OK, 1 row affected (0.055 sec)
+
+MariaDB [department]> select s.name, s1.name from supervisior s join supervisior s1 on s.id=s1.supervisiorid;
++---------+--------+
+| name    | name   |
++---------+--------+
+| shubhi  | ruchi  |
+| shubhi  | mahak  |
+| sheetal | shubhi |
++---------+--------+
+3 rows in set (0.002 sec)
+
+MariaDB [department]> select * from supervisior;
++----+---------+---------------+
+| id | name    | supervisiorid |
++----+---------+---------------+
+|  1 | ruchi   |             3 |
+|  2 | mahak   |             3 |
+|  3 | shubhi  |             4 |
+|  4 | sheetal |             5 |
++----+---------+---------------+
+4 rows in set (0.001 sec)
+

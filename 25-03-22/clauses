@@ -1,0 +1,115 @@
+add@add-Lenovo-G50-30:~$ sudo /opt/lampp/lampp start
+[sudo] password for add: 
+Starting XAMPP for Linux 7.4.28-0...
+XAMPP: Starting Apache...ok.
+XAMPP: Starting MySQL...ok.
+XAMPP: Starting ProFTPD...ok.
+add@add-Lenovo-G50-30:~$ sudo /opt/lampp/bin/mysql -u root -p
+Enter password: 
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 9
+Server version: 10.4.22-MariaDB Source distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> use department;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+MariaDB [department]> show tables;
++----------------------+
+| Tables_in_department |
++----------------------+
+| dept                 |
+| employee             |
+| official             |
+| salarydetails        |
+| supervisior          |
++----------------------+
+5 rows in set (0.001 sec)
+
+MariaDB [department]> select * from salarydetails;
++------------------+--------+------------+
+| email            | salary | deductions |
++------------------+--------+------------+
+| meenal@gmail.com |  20000 |       1000 |
+| saloni@gmail.com |  25000 |       3000 |
+| shruti@gmail.com |  26000 |       2000 |
++------------------+--------+------------+
+3 rows in set (0.049 sec)
+
+MariaDB [department]> select * from dept;
++-----+---------+----------+--------+---------------+--------+-----------+-----------------+
+| eno | empname | job      | salary | annual_salary | deptno | commision | date_of_joining |
++-----+---------+----------+--------+---------------+--------+-----------+-----------------+
+| 101 | saloni  | clerk    |   9000 |        108000 |     10 |       100 | 1990-03-21      |
+| 102 | shruti  | salesman |  10000 |        120000 |     20 |      NULL | 1991-03-21      |
+| 103 | meenal  | manager  |  12000 |        144000 |     40 |       300 | 1990-09-21      |
+| 104 | mukul   | analyst  |  13000 |        156000 |     20 |       400 | 2022-02-14      |
+| 105 | shyam   | clerk    |   9000 |        108000 |     20 |       100 | 2022-03-24      |
++-----+---------+----------+--------+---------------+--------+-----------+-----------------+
+5 rows in set (0.001 sec)
+
+MariaDB [department]> select job, count(deptno) from dept group by deptno;
++----------+---------------+
+| job      | count(deptno) |
++----------+---------------+
+| clerk    |             1 |
+| salesman |             3 |
+| manager  |             1 |
++----------+---------------+
+3 rows in set (0.002 sec)
+
+MariaDB [department]> select job, min(salary) from dept group by job;
++----------+-------------+
+| job      | min(salary) |
++----------+-------------+
+| analyst  |       13000 |
+| clerk    |        9000 |
+| manager  |       12000 |
+| salesman |       10000 |
++----------+-------------+
+4 rows in set (0.018 sec)
+
+MariaDB [department]> select deptno, min(salary) from dept group by deptno;
++--------+-------------+
+| deptno | min(salary) |
++--------+-------------+
+|     10 |        9000 |
+|     20 |        9000 |
+|     40 |       12000 |
++--------+-------------+
+3 rows in set (0.002 sec)
+
+MariaDB [department]> select deptno, count(salary) from dept group by deptno having count(*)>1;
++--------+---------------+
+| deptno | count(salary) |
++--------+---------------+
+|     20 |             3 |
++--------+---------------+
+1 row in set (0.001 sec)
+
+MariaDB [department]> select deptno, count(salary) from dept group by deptno having count(*)>=1;
++--------+---------------+
+| deptno | count(salary) |
++--------+---------------+
+|     10 |             1 |
+|     20 |             3 |
+|     40 |             1 |
++--------+---------------+
+3 rows in set (0.002 sec)
+
+MariaDB [department]> select * from employee;
++----+----------+---------------+------------+
+| id | name     | address       | mobile     |
++----+----------+---------------+------------+
+|  1 | krishna
+ | azad nagar    | 7879865455 |
+|  2 | tanisha  | shivaji nagar | 7946515641 |
+|  3 | kriti    | kesar ganj    | 4659856156 |
++----+----------+---------------+------------+
+3 rows in set (0.002 sec)
+

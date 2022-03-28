@@ -1,0 +1,45 @@
+Database changed
+MariaDB [department]> create view vwsample as select h.hr_id,h.hr_name,o.office_id,o.office_name from hr h join office o on h.hr_id=o.office_id;
+Query OK, 0 rows affected (0.002 sec)
+
+MariaDB [department]> select * from vwsample;
++-------+----------+-----------+-------------+
+| hr_id | hr_name  | office_id | office_name |
++-------+----------+-----------+-------------+
+|  1001 |shruti    |      1001 | xyz         |
+|  1002 | akanshsa |      1002 | wxyz        |
+|  1003 | meenal   |      1003 | xyz1        |
+|  1004 | sanklap  |      1004 | xyz2        |
+|  1005 | shayam   |      1005 | xyz3        |
++-------+----------+-----------+-------------+
+5 rows in set (0.006 sec)
+
+MariaDB [department]> create view vwhr as select * from hr where address='qwqwio';
+Query OK, 0 rows affected (0.007 sec)
+
+MariaDB [department]> select * from vwhr;
++-----+-------+---------+----------------+----------+---------+
+| sno | hr_id | hr_name | email          | phone no | address |
++-----+-------+---------+----------------+----------+---------+
+|   4 |  1004 | sanklap | san@gmail.com  |  321545  |station rd
++-----+-------+---------+----------------+----------+---------+
+1 row in set (0.006 sec)
+
+
+MariaDB [department]> alter view vwsample as select h.hr_id,h.hr_name,o.office_id  from hr h join office o on h.hr_id=o.office_id;
+Query OK, 0 rows affected (0.007 sec)
+
+MariaDB [department]> select * from vwsample;
++-------+----------+-----------+
+| hr_id | hr_name  | office_id |
++-------+----------+-----------+
+|  1001 | shruti   |      1001 |
+|  1002 | akanshsa |      1002 |
+|  1003 | meenal   |      1003 |
+|  1004 | sanklap  |      1004 |
+|  1005 | shayam   |      1005 |
++-------+----------+-----------+
+5 rows in set (0.001 sec)
+
+MariaDB [department]> 
+

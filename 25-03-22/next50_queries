@@ -1,0 +1,394 @@
+add@add-Lenovo-G50-30:~$ sudo /opt/lampp/bin/mysql -u root -p
+Enter password: 
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 9
+Server version: 10.4.22-MariaDB Source distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> use department
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+MariaDB [department]> select empname from dept where salary= (select max(salary) from dept);
++---------+
+| empname |
++---------+
+| mukul   |
++---------+
+1 row in set (0.093 sec)
+
+MariaDB [department]> select empname,eno from dept where job='clerk' and salary=(select max(salary) from dept where job='clerk');
++---------+-----+
+| empname | eno |
++---------+-----+
+| saloni  | 101 |
++---------+-----+
+1 row in set (0.002 sec)
+
+MariaDB [department]> select empname from dept where job='salesman' and salary>(select max(salary) from dept where job='clerk');
+Empty set (0.001 sec)
+
+MariaDB [department]> select empname from dept where salary>=(select salary from dept where empname = 'meenal') or salary<=(select salary from dept where empname='mukul') and job='clerk';
++---------+
+| empname |
++---------+
+| saloni  |
+| meenal  |
+| mukul   |
+| shyam   |
++---------+
+4 rows in set (0.003 sec)
+
+MariaDB [department]> select empname from dept where salary>=(select salary from dept where empname = 'meenal') or salary<=(select salary from dept where empname='mukul');
++---------+
+| empname |
++---------+
+| saloni  |
+| shruti  |
+| meenal  |
+| mukul   |
+| shyam   |
++---------+
+5 rows in set (0.002 sec)
+
+MariaDB [department]> select empname,max(salary) from dpet group by job;
+ERROR 1146 (42S02): Table 'department.dpet' doesn't exist
+MariaDB [department]> select empname,max(salary) from dept group by job;
++---------+-------------+
+| empname | max(salary) |
++---------+-------------+
+| mukul   |       13000 |
+| saloni  |       11000 |
+| meenal  |       12000 |
+| shruti  |       10000 |
++---------+-------------+
+4 rows in set (0.002 sec)
+
+MariaDB [department]> select empname,max(salary) from dept group by job;
++---------+-------------+
+| empname | max(salary) |
++---------+-------------+
+| mukul   |       13000 |
+| saloni  |       11000 |
+| meenal  |       12000 |
+| shruti  |       10000 |
++---------+-------------+
+4 rows in set (0.002 sec)
+
+MariaDB [department]> select empname from dept where job='accounting';
+Empty set (0.002 sec)
+
+MariaDB [department]> select job from dept group by job having sum(salary)>(select max(salary) from dept where job='manager');
++---------+
+| job     |
++---------+
+| analyst |
+| clerk   |
++---------+
+2 rows in set (0.003 sec)
+
+MariaDB [department]> select empname from dept where dept =10 and salary > all(select salary from dept where dept!=10);
+ERROR 1054 (42S22): Unknown column 'dept' in 'where clause'
+MariaDB [department]> select empname from dept where dept =10 and salary > all(select salary from dept where deptno!=10);
+ERROR 1054 (42S22): Unknown column 'dept' in 'where clause'
+MariaDB [department]> select empname from dept where deptno =10 and salary > all(select salary from dept where deptno!=10);
+Empty set (0.001 sec)
+
+MariaDB [department]> select upper(empname) from dept;
++----------------+
+| upper(empname) |
++----------------+
+| SALONI         |
+| SHRUTI         |
+| MEENAL         |
+| MUKUL          |
+| SHYAM          |
++----------------+
+5 rows in set (0.002 sec)
+
+MariaDB [department]> select lower(empname) from dept;
++----------------+
+| lower(empname) |
++----------------+
+| saloni         |
+| shruti         |
+| meenal         |
+| mukul          |
+| shyam          |
++----------------+
+5 rows in set (0.001 sec)
+
+MariaDB [department]> select proper(empname) from dept;
+ERROR 1558 (HY000): Column count of mysql.proc is wrong. Expected 21, found 20. Created with MariaDB 100108, now running 100422. Please use mysql_upgrade to fix this error
+MariaDB [department]> select length(empname) from dept;
++-----------------+
+| length(empname) |
++-----------------+
+|               6 |
+|               6 |
+|               6 |
+|               5 |
+|               5 |
++-----------------+
+5 rows in set (0.001 sec)
+
+MariaDB [department]> 
+MariaDB [department]> select length('krishna');
++-------------------+
+| length('krishna') |
++-------------------+
+|                 7 |
++-------------------+
+1 row in set (0.001 sec)
+
+MariaDB [department]> select concat(empname,eno) from dept;
++---------------------+
+| concat(empname,eno) |
++---------------------+
+| saloni101           |
+| shruti102           |
+| meenal103           |
+| mukul104            |
+| shyam105            |
++---------------------+
+5 rows in set (0.002 sec)
+
+MariaDB [department]> select substr('oracle',2,3) from dept;
++----------------------+
+| substr('oracle',2,3) |
++----------------------+
+| rac                  |
+| rac                  |
+| rac                  |
+| rac                  |
+| rac                  |
++----------------------+
+5 rows in set (0.002 sec)
+
+MariaDB [department]> select substr('oracle',2,3);
++----------------------+
+| substr('oracle',2,3) |
++----------------------+
+| rac                  |
++----------------------+
+1 row in set (0.001 sec)
+
+MariaDB [department]> select instr(‘COMPUTER MAINTENANCE CORPORATION’,'A');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'CORPORATION’,'A')' at line 1
+MariaDB [department]> select instr('COMPUTER MAINTENANCE CORPORATION','A');
++-----------------------------------------------+
+| instr('COMPUTER MAINTENANCE CORPORATION','A') |
++-----------------------------------------------+
+|                                            11 |
++-----------------------------------------------+
+1 row in set (0.001 sec)
+
+MariaDB [department]> select replace('Allen's','A','B');
+    '> '
+    -> 
+    -> '
+    '> select replace('Allens','A','B');
+    '> '
+    -> 
+    -> 
+    -> Ctrl-C -- exit!
+Aborted
+add@add-Lenovo-G50-30:~$ sudo /opt/lampp/bin/mysql -u root -p
+[sudo] password for add: 
+Enter password: 
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 10
+Server version: 10.4.22-MariaDB Source distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> select replace(job,'manager','Boss');
+ERROR 1054 (42S22): Unknown column 'job' in 'field list'
+MariaDB [(none)]> select replace(job,'manager','Boss') from dept;
+ERROR 1046 (3D000): No database selected
+MariaDB [(none)]> use department
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+MariaDB [department]> select replace(job,'manager','Boss') from dept;
++-------------------------------+
+| replace(job,'manager','Boss') |
++-------------------------------+
+| clerk                         |
+| salesman                      |
+| Boss                          |
+| analyst                       |
+| clerk                         |
++-------------------------------+
+5 rows in set (0.001 sec)
+select distinct(job) from dept where deptno in(10,20);
++----------+
+| job      |
++----------+
+| clerk    |
+| salesman |
+| analyst  |
++----------+
+3 rows in set (0.002 sec)
+
+MariaDB [department]> select distinct(job) from dept where deptno =10;
++-------+
+| job   |
++-------+
+| clerk |
++-------+
+1 row in set (0.001 sec)
+
+MariaDB [department]> alter table dept add grade bigint(5);
+Query OK, 0 rows affected (0.140 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [department]> select * from dept;
++-----+---------+----------+--------+---------------+--------+-----------+-----------------+-------+
+| eno | empname | job      | salary | annual_salary | deptno | commision | date_of_joining | grade |
++-----+---------+----------+--------+---------------+--------+-----------+-----------------+-------+
+| 101 | saloni  | clerk    |  11000 |        108000 |     10 |       100 | 1990-03-21      |  NULL |
+| 102 | shruti  | salesman |  10000 |        120000 |     20 |      NULL | 1991-03-21      |  NULL |
+| 103 | meenal  | manager  |  12000 |        144000 |     40 |       300 | 1990-09-21      |  NULL |
+| 104 | mukul   | analyst  |  13000 |        156000 |     20 |       400 | 2022-02-14      |  NULL |
+| 105 | shyam   | clerk    |   9000 |        108000 |     20 |       100 | 2022-03-24      |  NULL |
++-----+---------+----------+--------+---------------+--------+-----------+-----------------+-------+
+5 rows in set (0.001 sec)
+
+MariaDB [department]> update dept set garde=2 where eno=101 and eno=105;
+ERROR 1054 (42S22): Unknown column 'garde' in 'field list'
+MariaDB [department]> update dept set grade=2 where eno=101 and eno=105;
+Query OK, 0 rows affected (0.001 sec)
+
+MariaDB [department]> update dept set grade=3 where eno=102;
+Query OK, 1 row affected (0.107 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [department]> update dept set grade=4 where eno=103;
+Query OK, 1 row affected (0.094 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [department]> update dept set grade=1 where eno=104;
+Query OK, 1 row affected (0.068 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [department]> select * fom dept where job='salesman' and grade=3;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'fom dept where job='salesman' and grade=3' at line 1
+MariaDB [department]> select * from dept where job='salesman' and grade=3;
++-----+---------+----------+--------+---------------+--------+-----------+-----------------+-------+
+| eno | empname | job      | salary | annual_salary | deptno | commision | date_of_joining | grade |
++-----+---------+----------+--------+---------------+--------+-----------+-----------------+-------+
+| 102 | shruti  | salesman |  10000 |        120000 |     20 |      NULL | 1991-03-21      |     3 |
++-----+---------+----------+--------+---------------+--------+-----------+-----------------+-------+
+1 row in set (0.001 sec)
+
+MariaDB [department]> select * from dept where job='manager';
++-----+---------+---------+--------+---------------+--------+-----------+-----------------+-------+
+| eno | empname | job     | salary | annual_salary | deptno | commision | date_of_joining | grade |
++-----+---------+---------+--------+---------------+--------+-----------+-----------------+-------+
+| 103 | meenal  | manager |  12000 |        144000 |     40 |       300 | 1990-09-21      |     4 |
++-----+---------+---------+--------+---------------+--------+-----------+-----------------+-------+
+1 row in set (0.001 sec)
+
+MariaDB [department]> select * from dept where length(empname)>4;
++-----+---------+----------+--------+---------------+--------+-----------+-----------------+-------+
+| eno | empname | job      | salary | annual_salary | deptno | commision | date_of_joining | grade |
++-----+---------+----------+--------+---------------+--------+-----------+-----------------+-------+
+| 101 | saloni  | clerk    |  11000 |        108000 |     10 |       100 | 1990-03-21      |  NULL |
+| 102 | shruti  | salesman |  10000 |        120000 |     20 |      NULL | 1991-03-21      |     3 |
+| 103 | meenal  | manager  |  12000 |        144000 |     40 |       300 | 1990-09-21      |     4 |
+| 104 | mukul   | analyst  |  13000 |        156000 |     20 |       400 | 2022-02-14      |     1 |
+| 105 | shyam   | clerk    |   9000 |        108000 |     20 |       100 | 2022-03-24      |  NULL |
++-----+---------+----------+--------+---------------+--------+-----------+-----------------+-------+
+5 rows in set (0.001 sec)
+
+MariaDB [department]> select empname,job from dept;
++---------+----------+
+| empname | job      |
++---------+----------+
+| saloni  | clerk    |
+| shruti  | salesman |
+| meenal  | manager  |
+| mukul   | analyst  |
+| shyam   | clerk    |
++---------+----------+
+5 rows in set (0.001 sec)
+
+MariaDB [department]> select empname from dept where job='salesman';
++---------+
+| empname |
++---------+
+| shruti  |
++---------+
+1 row in set (0.001 sec)
+
+MariaDB [department]> select empname,job,salary,commision from dept where salary between 2000 and 5000;
+Empty set (0.001 sec)
+
+MariaDB [department]> select grade,,empname from dept where deptno=10 or deptno=30 and grade!=4 and date_of_joining < 1982-12-31;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'empname from dept where deptno=10 or deptno=30 and grade!=4 and date_of_joini...' at line 1
+MariaDB [department]> select grade,empname from dept where deptno=10 or deptno=30 and grade!=4 and date_of_joining < 1982-12-31;
++-------+---------+
+| grade | empname |
++-------+---------+
+|  NULL | saloni  |
++-------+---------+
+1 row in set (0.001 sec)
+
+MariaDB [department]> select * fom dept;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'fom dept' at line 1
+MariaDB [department]> select * from dept;
++-----+---------+----------+--------+---------------+--------+-----------+-----------------+-------+
+| eno | empname | job      | salary | annual_salary | deptno | commision | date_of_joining | grade |
++-----+---------+----------+--------+---------------+--------+-----------+-----------------+-------+
+| 101 | saloni  | clerk    |  11000 |        108000 |     10 |       100 | 1990-03-21      |  NULL |
+| 102 | shruti  | salesman |  10000 |        120000 |     20 |      NULL | 1991-03-21      |     3 |
+| 103 | meenal  | manager  |  12000 |        144000 |     40 |       300 | 1990-09-21      |     4 |
+| 104 | mukul   | analyst  |  13000 |        156000 |     20 |       400 | 2022-02-14      |     1 |
+| 105 | shyam   | clerk    |   9000 |        108000 |     20 |       100 | 2022-03-24      |  NULL |
++-----+---------+----------+--------+---------------+--------+-----------+-----------------+-------+
+5 rows in set (0.001 sec)
+
+MariaDB [department]> update dept set salary=salary+(salary*10/100) where commision = NULL;
+Query OK, 0 rows affected (0.001 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+MariaDB [department]> select * from dept;
++-----+---------+----------+--------+---------------+--------+-----------+-----------------+-------+
+| eno | empname | job      | salary | annual_salary | deptno | commision | date_of_joining | grade |
++-----+---------+----------+--------+---------------+--------+-----------+-----------------+-------+
+| 101 | saloni  | clerk    |  11000 |        108000 |     10 |       100 | 1990-03-21      |  NULL |
+| 102 | shruti  | salesman |  10000 |        120000 |     20 |      NULL | 1991-03-21      |     3 |
+| 103 | meenal  | manager  |  12000 |        144000 |     40 |       300 | 1990-09-21      |     4 |
+| 104 | mukul   | analyst  |  13000 |        156000 |     20 |       400 | 2022-02-14      |     1 |
+| 105 | shyam   | clerk    |   9000 |        108000 |     20 |       100 | 2022-03-24      |  NULL |
++-----+---------+----------+--------+---------------+--------+-----------+-----------------+-------+
+5 rows in set (0.001 sec)
+
+MariaDB [department]> update dept set salary=salary+(salary*10/100) where commision is NULL;
+Query OK, 1 row affected (0.077 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [department]> select * from dept;
++-----+---------+----------+--------+---------------+--------+-----------+-----------------+-------+
+| eno | empname | job      | salary | annual_salary | deptno | commision | date_of_joining | grade |
++-----+---------+----------+--------+---------------+--------+-----------+-----------------+-------+
+| 101 | saloni  | clerk    |  11000 |        108000 |     10 |       100 | 1990-03-21      |  NULL |
+| 102 | shruti  | salesman |  11000 |        120000 |     20 |      NULL | 1991-03-21      |     3 |
+| 103 | meenal  | manager  |  12000 |        144000 |     40 |       300 | 1990-09-21      |     4 |
+| 104 | mukul   | analyst  |  13000 |        156000 |     20 |       400 | 2022-02-14      |     1 |
+| 105 | shyam   | clerk    |   9000 |        108000 |     20 |       100 | 2022-03-24      |  NULL |
++-----+---------+----------+--------+---------------+--------+-----------+-----------------+-------+
+5 rows in set (0.001 sec)
+
+MariaDB [department]> delete table dept where date_of_joining > '1982-12-31';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'table dept where date_of_joining > '1982-12-31'' at line 1
+MariaDB [department]> delete from dept where date_of_joining > '1982-12-31';
+

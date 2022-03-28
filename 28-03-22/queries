@@ -1,0 +1,189 @@
+select empname,job from dept where empname='meenal' and job ='manager';
++---------+---------+
+| empname | job     |
++---------+---------+
+| meenal  | manager |
++---------+---------+
+1 row in set (0.001 sec)
+
+MariaDB [department]> select empname,jab,salary,grade from dept where job!='clerk' and salary order by desc limit 1;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'desc limit 1' at line 1
+MariaDB [department]> select empname,jab,salary,grade from dept where job!='clerk' and salary order by desc;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'desc' at line 1
+MariaDB [department]> select empname,jab,salary,grade from dept where job!='clerk' and order by salary desc;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'order by salary desc' at line 1
+MariaDB [department]> select empname,jab,salary,grade from dept order by salary desc where job!='clerk';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'where job!='clerk'' at line 1
+MariaDB [department]> select empname,jab,salary,grade from dept where job!='clerk' order by salary desc;
+ERROR 1054 (42S22): Unknown column 'jab' in 'field list'
+MariaDB [department]> select empname,job,salary,grade from dept where job!='clerk' order by salary desc;
++---------+----------+--------+-------+
+| empname | job      | salary | grade |
++---------+----------+--------+-------+
+| mukul   | analyst  |  13000 |     1 |
+| meenal  | manager  |  12000 |     4 |
+| shruti  | salesman |  10000 |     3 |
++---------+----------+--------+-------+
+3 rows in set (0.001 sec)
+
+MariaDB [department]> select * from dept order by salary desc limit 3;
++-----+---------+----------+--------+---------------+--------+-----------+-----------------+-------+
+| eno | empname | job      | salary | annual_salary | deptno | commision | date_of_joining | grade |
++-----+---------+----------+--------+---------------+--------+-----------+-----------------+-------+
+| 104 | mukul   | analyst  |  13000 |        156000 |     20 |      NULL | 2022-02-14      |     1 |
+| 103 | meenal  | manager  |  12000 |        240000 |     40 |       300 | 1990-09-21      |     4 |
+| 102 | shruti  | salesman |  10000 |        120000 |     20 |       100 | 1991-03-21      |     3 |
++-----+---------+----------+--------+---------------+--------+-----------+-----------------+-------+
+3 rows in set (0.001 sec)
+
+MariaDB [department]> select * from dept where salary==(select (max(salary)+min(salary))/2 from dept );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '=(select (max(salary)+min(salary))/2 from dept )' at line 1
+MariaDB [department]> select empname from dept where salary=(select (max(d.salary)+min(d.salary))/2 from dept d );
+Empty set (0.002 sec)
+
+MariaDB [department]> select empname from dept where salary=(select max(salary)+min(salary)/2 from dept );
+Empty set (0.001 sec)
+
+MariaDB [department]> select count(job) from dept group by job having count(*)>3;
+Empty set (0.001 sec)
+
+MariaDB [department]> select count(job) from dept group by job having count(*)>=2;
++------------+
+| count(job) |
++------------+
+|          2 |
++------------+
+1 row in set (0.001 sec)
+
+MariaDB [department]> select job,count(job) from dept group by job having count(*)>=2;
++-------+------------+
+| job   | count(job) |
++-------+------------+
+| clerk |          2 |
++-------+------------+
+1 row in set (0.001 sec)
+
+MariaDB [department]> select job,count(job) from dept group by job having count(*)>3;
+Empty set (0.001 sec)
+
+MariaDB [department]> select empname from dept where job='manager' and salary>(select avg(salary) from dept);
++---------+
+| empname |
++---------+
+| meenal  |
++---------+
+1 row in set (0.002 sec)
+
+MariaDB [department]> select empname,salary,commision from dept where salary>=(select salary from dept);
+ERROR 1242 (21000): Subquery returns more than 1 row
+MariaDB [department]> select empname,salary,commision from dept where salary>= all(select salary from dept);
++---------+--------+-----------+
+| empname | salary | commision |
++---------+--------+-----------+
+| mukul   |  13000 |      NULL |
++---------+--------+-----------+
+1 row in set (0.001 sec)
+
+MariaDB [department]> select empname from dept order by asc limit 3;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'asc limit 3' at line 1
+MariaDB [department]> select empname from dept order by salary asc limit 3;
++---------+
+| empname |
++---------+
+| saloni  |
+| shyam   |
+| shruti  |
++---------+
+3 rows in set (0.001 sec)
+
+MariaDB [department]> select empname from dept where salary=mod(salary,2)!=0;
+Empty set (0.001 sec)
+
+MariaDB [department]> select empname from dept where salary=mod(salary,2)=0;
++---------+
+| empname |
++---------+
+| saloni  |
+| shruti  |
+| meenal  |
+| mukul   |
+| shyam   |
++---------+
+5 rows in set (0.001 sec)
+
+MariaDB [department]> select empname from dept where salary like '____';
++---------+
+| empname |
++---------+
+| saloni  |
+| shyam   |
++---------+
+2 rows in set (0.001 sec)
+
+MariaDB [department]> select empname from dept where date_of_salary like '____-12-__';
+ERROR 1054 (42S22): Unknown column 'date_of_salary' in 'where clause'
+MariaDB [department]> select empname from dept where date_of_joining like '____-12-__';
+Empty set (0.001 sec)
+
+MariaDB [department]> select empname from dept where empname like '%a%';
++---------+
+| empname |
++---------+
+| saloni  |
+| meenal  |
+| shyam   |
++---------+
+3 rows in set (0.001 sec)
+
+MariaDB [department]> select concat(substr(date_of_joining,0,2),substr(salary,-2)) from dept;
++-------------------------------------------------------+
+| concat(substr(date_of_joining,0,2),substr(salary,-2)) |
++-------------------------------------------------------+
+| 00                                                    |
+| 00                                                    |
+| 00                                                    |
+| 00                                                    |
+| 00                                                    |
++-------------------------------------------------------+
+5 rows in set (0.001 sec)
+
+MariaDB [department]> select concat(substr(date_of_joining,1,3),substr(salary,-2)) from dept;
++-------------------------------------------------------+
+| concat(substr(date_of_joining,1,3),substr(salary,-2)) |
++-------------------------------------------------------+
+| 19900                                                 |
+| 19900                                                 |
+| 19900                                                 |
+| 20200                                                 |
+| 20200                                                 |
++-------------------------------------------------------+
+5 rows in set (0.001 sec)
+
+MariaDB [department]> select concat(substr(date_of_joining,1,2),substr(salary,-2)) from dept;
++-------------------------------------------------------+
+| concat(substr(date_of_joining,1,2),substr(salary,-2)) |
++-------------------------------------------------------+
+| 1900                                                  |
+| 1900                                                  |
+| 1900                                                  |
+| 2000                                                  |
+| 2000                                                  |
++-------------------------------------------------------+
+5 rows in set (0.001 sec)
+select empname from dept where job in('salesman','manager');
++---------+
+| empname |
++---------+
+| shruti  |
+| meenal  |
++---------+
+2 rows in set (0.001 sec)
+
+MariaDB [department]> select grade from dept where empname = 'saloni';
++-------+
+| grade |
++-------+
+|     2 |
++-------+
+1 row in set (0.001 sec)
+
