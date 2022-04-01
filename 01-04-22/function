@@ -1,0 +1,179 @@
+MariaDB [sampleDB]> DELIMITER $
+MariaDB [sampleDB]> CREATE FUNCTION addition(a decimal(10,2), b decimal(10,2))
+    -> returns decimal(10,2)
+    -> DETERMINISTIC
+    -> BEGIN
+    -> DECLARE c decimal(10,2);
+    -> SET c = a+b;
+    -> return (c);
+    -> END$
+Query OK, 0 rows affected (0.078 sec)
+
+MariaDB [sampleDB]> DELIMITER;
+    -> $
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'DELIMITER' at line 1
+MariaDB [sampleDB]> DELIMITER ;
+MariaDB [sampleDB]> select addition(20,30)
+    -> ;
++-----------------+
+| addition(20,30) |
++-----------------+
+|           50.00 |
++-----------------+
+1 row in set (0.001 sec)
+
+MariaDB [sampleDB]> alter table customer add age bigint(10);
+Query OK, 0 rows affected (0.120 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [sampleDB]> update customer set age = 25 where cid= 101;
+Query OK, 1 row affected (0.089 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [sampleDB]> update customer set age = 15 where cid= 102;
+Query OK, 1 row affected (0.078 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [sampleDB]> update customer set age = 35 where cid= 103;
+Query OK, 1 row affected (0.087 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [sampleDB]> update customer set age = 20 where cid= 104;
+Query OK, 1 row affected (0.062 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [sampleDB]> update customer set age = 30 where cid= 105;
+Query OK, 1 row affected (0.094 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [sampleDB]> update customer set age = 40 where cid= 106;
+Query OK, 1 row affected (0.070 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [sampleDB]> update customer set age = 38 where cid= 107;
+Query OK, 0 rows affected (0.001 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+MariaDB [sampleDB]> update customer set age = 48 where cid= 108;
+Query OK, 1 row affected (0.070 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [sampleDB]> update customer set age = 28 where cid= 109;
+Query OK, 2 rows affected (0.050 sec)
+Rows matched: 2  Changed: 2  Warnings: 0
+
+MariaDB [sampleDB]> update customer set age = 21 where cid= 110;
+Query OK, 1 row affected (0.075 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [sampleDB]> delimiter $
+MariaDB [sampleDB]> CREATE FUNCTION Cust(age int)
+    -> RETURNS VARCHAR(20)
+    -> DETERMINISTIC
+    -> BEGIN
+    -> DECLARE customer_occupation VARCHAR(20);
+    -> IF age>35 THEN
+    -> SET custmer_occupation = 'Scientist';
+    -> ELSEIF (age<=35 AND age>=30) THEN
+    -> SET customer_occupation = 'Engineer';
+    -> ELSEIF age<30 THEN
+    -> SET customer_occupation = 'Actor';
+    -> END IF;
+    -> RETURN (customer_occupation);
+    -> END$
+ERROR 1193 (HY000): Unknown system variable 'custmer_occupation'
+MariaDB [sampleDB]> CREATE FUNCTION Cust(age int)
+    ->     -> RETURNS VARCHAR(20)
+    ->     -> DETERMINISTIC
+    ->     -> BEGIN
+    ->     -> DECLARE customer_occupation VARCHAR(20);
+    ->     -> IF age>35 THEN
+    ->     -> SET customer_occupation = 'Scientist';
+    -> ELSEIF (age<=35 AND age>=30) THEN
+    ->     -> SET customer_occupation = 'Engineer';
+    ->     -> ELSEIF age<30 THEN
+    ->     -> SET customer_occupation = 'Actor';
+    ->     -> END IF;
+    ->     -> RETURN (customer_occupation);
+    ->     -> END$
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '-> RETURNS VARCHAR(20)
+    -> DETERMINISTIC
+    -> BEGIN
+    -> DECLARE custo...' at line 2
+MariaDB [sampleDB]> CREATE FUNCTION Cust(age int)
+    ->     -> RETURNS VARCHAR(20)
+    ->     -> DETERMINISTIC
+    ->     -> BEGIN
+    ->     -> DECLARE customer_occupation VARCHAR(20);
+    ->     -> IF age>35 THEN
+    -> SET custmer_occupation = 'Scientist';
+    ->     -> ELSEIF (age<=35 AND age>=30) THEN
+    ->     -> SET customer_occupation = 'Engineer';
+    ->     -> ELSEIF age<30 THEN
+    ->     -> SET customer_occupation = 'Actor';
+    ->     -> END IF;
+    ->     -> RETURN (customer_occupation);
+    ->     -> END$
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '-> RETURNS VARCHAR(20)
+    -> DETERMINISTIC
+    -> BEGIN
+    -> DECLARE custo...' at line 2
+MariaDB [sampleDB]> CREATE FUNCTION Cust(age int)
+    -> RETURNS VARCHAR(20)
+    -> DETERMINISTIC
+    -> BEGIN
+    -> DECLARE customer_occupation VARCHAR(20);
+    -> IF age>35 THEN
+    -> SET customer_occupation = 'Scientist';
+    -> ELSEIF (age<=35 AND age>=30) THEN
+    -> SET customer_occupation = 'Engineer';
+    -> ELSEIF age<30 THEN
+    -> SET customer_occupation = 'Actor';
+    -> END IF;
+    -> RETURN (customer_occupation);
+    -> END$
+Query OK, 0 rows affected (0.090 sec)
+
+MariaDB [sampleDB]> SELECT name,age,Cust(age) FROM customer ORDER BY age;
+    -> $
+ERROR 1054 (42S22): Unknown column 'name' in 'field list'
+MariaDB [sampleDB]> SELECT cname,age,Cust(age) FROM customer ORDER BY age$
++-----------+------+-----------+
+| cname     | age  | Cust(age) |
++-----------+------+-----------+
+| zxcvbnm   |   15 | Actor     |
+| xcvbnm    |   20 | Actor     |
+| ytughjknm |   21 | Actor     |
+| sdfgh     |   25 | Actor     |
+| tyghbnm   |   28 | Actor     |
+| sdfghjk   |   28 | Actor     |
+| dfghjkl   |   30 | Engineer  |
+| xcvbnm    |   35 | Engineer  |
+| tyuio     |   40 | Scientist |
+| cvbnm     |   48 | Scientist |
++-----------+------+-----------+
+10 rows in set (0.003 sec)
+
+MariaDB [sampleDB]> CREATE TABLE people(age INT, name varchar(150));
+    -> $
+Query OK, 0 rows affected (0.316 sec)
+
+MariaDB [sampleDB]> CREATE TRIGGER agecheck BEFORE INSERT ON people FOR EACH ROW IF NEW.age < 0
+    -> THEN SET NEW.age = 0;
+    -> END IF$
+Query OK, 0 rows affected (0.090 sec)
+
+MariaDB [sampleDB]> DELIMITER ;
+MariaDB [sampleDB]> INSERT INTO people VALUES (-15,'krishna'),(30,'Josh');
+Query OK, 2 rows affected (0.064 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+MariaDB [sampleDB]> SELECT * FROM people;
++------+---------+
+| age  | name    |
++------+---------+
+|    0 | krishna |
+|   30 | Josh    |
++------+---------+
+2 rows in set (0.001 sec)
+

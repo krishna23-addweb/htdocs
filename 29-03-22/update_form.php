@@ -1,5 +1,15 @@
+<html>
+    <body>
+<form method="post">
+        ID: <input type="number" name="id1"/>
+        <input type="submit" name="submit">
+</form>
+</body>
+</html>
 <?php 
-$id=110;
+if(isset($_POST['submit'])){
+$id=$_POST['id1'];
+
 $con = mysqli_connect("localhost","root","","sampleDB") or die ("error in connection");
 $query = mysqli_query($con,"select * from student where sid=$id") or die("error in query");
 while($row=mysqli_fetch_array($query))
@@ -14,6 +24,7 @@ while($row=mysqli_fetch_array($query))
     
 }
 mysqli_close($con);
+}
 ?>
 
 <!DOCTYPE html>
