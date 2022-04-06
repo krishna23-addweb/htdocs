@@ -7,11 +7,14 @@
         display: flex;
         margin-top : 250px;
     }
+    .backg{
+        background: 
+    }
 </style>
 </head>
 <body>
     <div class="login_center">
-    <form method="post" id="form1">
+    <form method="post" id="form1" class="backg">
         <table padding=25>
             
         <tr>
@@ -47,7 +50,7 @@ if (password != confirmPassword) {
 alert("Passwords do not match.");
 return false;
 } else {
-    alert("Passwords  match.");
+    alert("Passwords match.");
 return true;
 }
 }
@@ -57,30 +60,30 @@ return true;
 </html>
 
 <?php
-// error_reporting(0);
-// if(isset($_POST['Register'])){
-//     $email= $_POST['email'];
-//     $password = $_POST['password'];
-//     $fname = $_POST['fname'];
-//     $lname = $_POST['lname'];
-//     $phone = $_POST['phone'];
-//     $con = mysqli_connect("localhost","root","","sampleDB") or die ("error in connection");
-//     $abc="Insert into login (username,password,first_name,last_name,phone) values('$email','$password','$fname','$lname',$phone)";
-//     echo $abc;
-//     $query= mysqli_query($con,$abc) or die("error in query");
-//     if($query)
-//     {
-        
-//         echo "<script>alert('Sign up successfully')</script>";
-//         header('Location:dashboard.php');
-//     }
-//     else
-//     {
-//         echo "<script>alert('something went wrong')</script>";
-//     }
+error_reporting(0);
+if(isset($_POST['Register'])){
+   $email= $_POST['email'];
+     $password = $_POST['password'];
+     $fname = $_POST['fname'];
+     $lname = $_POST['lname'];
+     $phone = $_POST['phone'];
+     $con = mysqli_connect("localhost","root","","sampleDB") or die ("error in connection");
+     $abc="Insert into login (username,password,first_name,last_name,phone) values('$email','$password','$fname','$lname',$phone)";
+     echo $abc;
+     $query= mysqli_query($con,$abc) or die("error in query");
+     if($query)
+     {
+      
+         echo "<script>alert('Sign up successfully')</script>";
+         header('Location:dashboard.php');
+     }
+     else
+     {
+         echo "<script>alert('something went wrong')</script>";
+     }
     
-//     mysqli_close($con);
+     mysqli_close($con);
 
-// }
+ }
 
 ?>
